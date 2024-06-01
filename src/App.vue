@@ -4,8 +4,10 @@ const openedTabs = ref<any>([])
 onMounted(() => {
   chrome.tabs.query({ windowType: 'normal' }, function (tabs: any) {
     console.log(tabs, 'tabs')
+    openedTabs.value= []
     openedTabs.value = tabs
   })
+
 })
 
 const goTab = (tab:any) =>{
@@ -19,7 +21,7 @@ const goTab = (tab:any) =>{
     <input autofocus />
     <div v-for="tab in openedTabs" :key="tab.id">
       {{ tab.title }}
-      <Button @click="goTab(tab)">跳转</Button>
+      <button @click="goTab(tab)">跳转</button>
     </div>
   </div>
 </template>

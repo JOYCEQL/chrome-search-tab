@@ -5,8 +5,8 @@ export default defineManifest(async (env) => {
   // console.log("defineManifesttttt", env)
   return {
     manifest_version: 3,
-    name: 'mock input good',
-    description: 'Mock Input',
+    name: 'Search Tab',
+    description: 'Locate an opened tab',
     version: packageJson.version,
     action: {
       default_title: 'Default Title',
@@ -29,12 +29,12 @@ export default defineManifest(async (env) => {
       service_worker: 'src/background.ts',
     },
     commands: {
-      "toggle-extension": {
+      "_execute_action": {
         "suggested_key": {
-          "default": "Alt+T",
-          "mac": "Command+Shift+T"
+          "default": "Ctrl+Shift+Q",  
+          "mac": "Command+Shift+Q"
         },
-        "description": "Toggle Extension"
+        "description": "Active Extension"
       }
     },
     permissions:[
