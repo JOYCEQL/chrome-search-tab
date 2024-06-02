@@ -35,10 +35,18 @@ export default defineManifest(async (env) => {
           "mac": "Command+Shift+Q"
         },
         "description": "Active Extension"
+      },
+      "toggle": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+U",  
+          "mac": "Command+Shift+U"
+        },
+        "description": "Active Extension"
       }
     },
     permissions:[
       "tabs",
+
     ]
   }
 })

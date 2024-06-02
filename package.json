@@ -10,13 +10,17 @@
   },
   "dependencies": {
     "axios": "^1.6.8",
+    "lucide-vue-next": "^0.381.0",
     "vue": "^3.3.8"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "2.0.0-beta.21",
     "@types/chrome": "^0.0.254",
     "@vitejs/plugin-vue": "^4.5.0",
+    "less": "^4.2.0",
+    "naive-ui": "^2.38.2",
     "typescript": "^5.2.2",
+    "unocss": "^0.60.4",
     "vite": "^5.0.0",
     "vue-tsc": "^1.8.22"
   }
