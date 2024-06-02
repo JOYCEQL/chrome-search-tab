@@ -18,10 +18,10 @@ const goTab = (tab:any) =>{
 
 <template>
   <div>
-    <input autofocus />
+    <NInput autofocus>naive-ui</NInput>
     <div v-for="tab in openedTabs" :key="tab.id">
       {{ tab.title }}
-      <button @click="goTab(tab)">跳转</button>
+      <NButton @click="goTab(tab)">跳转</NButton>
     </div>
   </div>
 </template>
