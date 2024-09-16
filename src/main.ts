@@ -7,11 +7,13 @@ import {
   create,
   // component
   NButton,
+  NModal,
   NInput,
+  NCard,
 } from 'naive-ui'
 
 const naive = create({
-  components: [NButton, NInput],
+  components: [NButton, NInput, NModal, NCard],
 })
 const app = createApp(App)
 app.use(naive)

@@ -29,24 +29,21 @@ export default defineManifest(async (env) => {
       service_worker: 'src/background.ts',
     },
     commands: {
-      "_execute_action": {
-        "suggested_key": {
-          "default": "Ctrl+Shift+Q",  
-          "mac": "Command+Shift+Q"
+      _execute_action: {
+        suggested_key: {
+          default: 'Ctrl+Shift+Q',
+          mac: 'Command+Shift+Q',
         },
-        "description": "Active Extension"
+        description: 'Active Extension',
       },
-      "toggle": {
-        "suggested_key": {
-          "default": "Ctrl+Shift+U",  
-          "mac": "Command+Shift+U"
+      toggle: {
+        suggested_key: {
+          default: 'Ctrl+Shift+U',
+          mac: 'Command+Shift+U',
         },
-        "description": "Active Extension"
-      }
+        description: 'Active Extension',
+      },
     },
-    permissions:[
-      "tabs",
-
-    ]
+    permissions: ['tabs', 'activeTab'],
   }
 })
