@@ -67,7 +67,7 @@
 
 import { createApp } from 'vue'
 import FloatingBall from './components/FloatingBall.vue'
-import { create, NModal, NCard } from 'naive-ui'
+import { create, NModal, NCard, NInput } from 'naive-ui'
 // 创建一个 Vue 应用
 const app = createApp(FloatingBall)
 
@@ -76,8 +76,38 @@ const mountPoint = document.createElement('div')
 mountPoint.id = 'vue-floating-ball'
 document.body.appendChild(mountPoint)
 const naive = create({
-  components: [NModal, NCard],
+  components: [NModal, NCard, NInput],
 })
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.tabs) {
+    console.log('Received all tabs info:', request.tabs)
+    const floatingBall = document.getElementById('floating-ball')
+    if (floatingBall) {
+      floatingBall.click() // 模拟点击悬浮球
+    }
+    // 将数据存储到window上
+    window.postMessage({ type: 'SET_OPEN_TABS', data: request.tabs }, '*')
+    // 打开弹窗
+    // localStorage.setItem('openTabs', JSON.stringify(request.tabs))
+    // 你可以在这里进一步处理接收到的所有标签页信息
+  }
+})
+
+// // 监听键盘ctrl+shift+h触发元素的点击事件// 监听组合键的函数
+// window.addEventListener('keydown', (event) => {
+//   // 检查是否按下了 Ctrl + Shift + H
+//   if (event.ctrlKey && event.shiftKey && event.key === 'H') {
+//     event.preventDefault() // 阻止默认行为（如果有的话）
+//     console.log('Ctrl + Shift + H 被触发！')
+
+//     // 在这里执行您想要的操作
+//     const floatingBall = document.getElementById('floating-ball')
+//     if (floatingBall) {
+//       floatingBall.click() // 模拟点击悬浮球
+//     }
+//   }
+// })
 
 app.use(naive)
 // 挂载 Vue 应用

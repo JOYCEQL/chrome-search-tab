@@ -9,9 +9,14 @@ onMounted(() => {
 })
 
 const getAactivedTab = () => {
-  chrome.tabs.query({ windowType: 'normal' }, function (tabs: any) {
-    openedTabs.value = []
-    openedTabs.value = tabs
+  //   chrome.tabs.query({ windowType: 'normal' }, function (tabs: any) {
+  //     openedTabs.value = []
+  //     openedTabs.value = tabs
+  //   })
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'SET_OPEN_TABS') {
+      openedTabs.value = event.data.data
+    }
   })
 }
 
@@ -32,7 +37,12 @@ const resultTab = computed(() => {
 
 <template>
   <div class="w-full">
-    <NInput autofocus v-model:value="searchValue" class="mb-4 rounded-[8px]" placeholder="输入URL或者标题搜索"
+    <NInput
+      autofocus
+      v-model:value="searchValue"
+      style="margin-bottom: 16px; border-radius: 8px"
+      class="mb-4 rounded-[8px]"
+      placeholder="输入URL或者标题搜索"
       >naive-ui</NInput
     >
     <div class="h-[500px] overflow-auto">
@@ -42,8 +52,8 @@ const resultTab = computed(() => {
         class="list-item bg-[#fef9ef] text-black mb-[12px] rounded-[10px] cursor-pointer overflow-hidden"
         @click="goTab(tab)"
       >
-        <div class="flex-1 shrink-0 p-4">{{ tab.title }}</div>
-        <div @click.prevent="closeTab(tab)" class="bg-[#ffcb77] text-white flex w-[50px] justify-center items-center">
+        <div class="line-title flex-1 shrink-0 p-4">{{ tab.title }}</div>
+        <div @click.prevent="closeTab(tab)" class="line-closeIcon">
           <X :size="30"></X>
         </div>
       </div>
@@ -55,8 +65,24 @@ const resultTab = computed(() => {
 .list-item {
   display: flex;
   justify-content: space-between;
-  border: 1px rgb(57, 55, 54) solid;
   transition: all 100ms;
+  background-color: #fef9ef;
+  color: black;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  .line-title {
+    padding: 16px;
+    flex: 1;
+  }
+  .line-closeIcon {
+    background-color: #ffcb77;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   &:hover {
     background: #02c39a;
     color: #fff;

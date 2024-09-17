@@ -21,9 +21,7 @@ const goTab = (tab: any) => {
 }
 
 const closeTab = (tab: any) => {
-  chrome.runtime.sendMessage({ action: 'closeTab', tabId: tab.id }, function () {
-    window.close() // 确保消息处理完成后再关闭窗口
-  })
+  chrome.runtime.sendMessage({ action: 'closeTab', tabId: tab.id })
 }
 
 const resultTab = computed(() => {

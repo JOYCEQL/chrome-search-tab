@@ -1,5 +1,6 @@
 <template>
   <div
+    id="floating-ball"
     class="floating-ball"
     @mousedown="startDragging"
     :style="{ left: position.x + 'px', top: position.y + 'px' }"
@@ -7,16 +8,27 @@
   >
     ⚙️
   </div>
-  <n-modal :show="showModal">
-    <n-card style="width: 600px" title="模态框" size="huge" :bordered="false" role="dialog" aria-modal="true">
-      <div><SearchContainer></SearchContainer></div>
+  <!-- unstableShowMask 设置是否显示mask -->
+  <NModal :show="showModal" :mask-closable="true" :show-icon="true" :unstableShowMask="false">
+    <n-card
+      style="width: 600px; background-color: #242424"
+      size="huge"
+      :bordered="false"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div>
+        <div style="color: #fff" @click="showModal = false">关闭</div>
+        <SearchContainer></SearchContainer>
+      </div>
     </n-card>
-  </n-modal>
+  </NModal>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import SearchContainer from './SearchContainer.vue'
+import { NModal } from 'naive-ui'
 const position = ref({ x: 100, y: 100 }) // 初始位置
 const showModal = ref(false)
 let isDragging = false
@@ -46,6 +58,13 @@ const stopDragging = () => {
 onMounted(() => {
   document.addEventListener('mousemove', onMouseMove)
   document.addEventListener('mouseup', stopDragging)
+
+  // 注册esc事件,关闭modal弹窗
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      showModal.value = false
+    }
+  })
 })
 
 onUnmounted(() => {

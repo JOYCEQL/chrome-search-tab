@@ -38,8 +38,8 @@ export default defineManifest(async (env) => {
       },
       toggle: {
         suggested_key: {
-          default: 'Ctrl+Shift+U',
-          mac: 'Command+Shift+U',
+          default: 'Ctrl+Shift+H',
+          mac: 'Command+Shift+H',
         },
         description: 'Active Extension',
       },
