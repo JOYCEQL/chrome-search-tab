@@ -75,6 +75,7 @@ const app = createApp(FloatingBall)
 const mountPoint = document.createElement('div')
 mountPoint.id = 'vue-floating-ball'
 document.body.appendChild(mountPoint)
+mountPoint.style.display = 'none'
 const naive = create({
   components: [NModal, NCard, NInput],
 })
@@ -93,21 +94,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // 你可以在这里进一步处理接收到的所有标签页信息
   }
 })
-
-// // 监听键盘ctrl+shift+h触发元素的点击事件// 监听组合键的函数
-// window.addEventListener('keydown', (event) => {
-//   // 检查是否按下了 Ctrl + Shift + H
-//   if (event.ctrlKey && event.shiftKey && event.key === 'H') {
-//     event.preventDefault() // 阻止默认行为（如果有的话）
-//     console.log('Ctrl + Shift + H 被触发！')
-
-//     // 在这里执行您想要的操作
-//     const floatingBall = document.getElementById('floating-ball')
-//     if (floatingBall) {
-//       floatingBall.click() // 模拟点击悬浮球
-//     }
-//   }
-// })
 
 app.use(naive)
 // 挂载 Vue 应用

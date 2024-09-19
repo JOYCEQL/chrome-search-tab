@@ -45,7 +45,7 @@ const resultTab = computed(() => {
       placeholder="输入URL或者标题搜索"
       >naive-ui</NInput
     >
-    <div class="h-[500px] overflow-auto">
+    <div class="tab-container h-[500px] overflow-auto">
       <div
         v-for="tab in resultTab"
         :key="tab.id"
@@ -62,6 +62,10 @@ const resultTab = computed(() => {
 </template>
 
 <style scoped lang="less">
+.tab-container {
+  height: 400px;
+  overflow: auto;
+}
 .list-item {
   display: flex;
   justify-content: space-between;
@@ -72,6 +76,7 @@ const resultTab = computed(() => {
   border-radius: 10px;
   cursor: pointer;
   overflow: hidden;
+
   .line-title {
     padding: 16px;
     flex: 1;

@@ -18,7 +18,10 @@
       aria-modal="true"
     >
       <div>
-        <div style="color: #fff" @click="showModal = false">关闭</div>
+        <div style="color: #fff; margin-bottom: 12px">
+          <span>ESC：</span>
+          <span>关闭</span>
+        </div>
         <SearchContainer></SearchContainer>
       </div>
     </n-card>
@@ -42,6 +45,8 @@ const startDragging = (e) => {
 
 const showTab = () => {
   showModal.value = true
+  // 触发background.ts的toggle操作
+  chrome.runtime.sendMessage({ action: 'sendTabs' })
 }
 
 const onMouseMove = (e) => {

@@ -35,7 +35,7 @@ const resultTab = computed(() => {
     <NInput autofocus v-model:value="searchValue" class="mb-4 rounded-[8px]" placeholder="输入URL或者标题搜索"
       >naive-ui</NInput
     >
-    <div class="h-[500px] overflow-auto">
+    <div class="h-[480px] overflow-auto">
       <div
         v-for="tab in resultTab"
         :key="tab.id"
