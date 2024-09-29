@@ -21,8 +21,7 @@ const getAactivedTab = () => {
 }
 
 const goTab = (tab: any) => {
-  chrome.tabs.update(tab.id, { active: true })
-  chrome.windows.update(tab.windowId, { focused: true })
+  chrome.runtime.sendMessage({ action: 'goTab', tabId: tab.id })
 }
 
 const closeTab = (tab: any) => {
@@ -43,8 +42,7 @@ const resultTab = computed(() => {
       style="margin-bottom: 16px; border-radius: 8px"
       class="mb-4 rounded-[8px]"
       placeholder="输入URL或者标题搜索"
-      >naive-ui</NInput
-    >
+    ></NInput>
     <div class="tab-container h-[500px] overflow-auto">
       <div
         v-for="tab in resultTab"

@@ -65,6 +65,8 @@
 //   createFloatingBall()
 // })
 
+console.log(11223)
+
 import { createApp } from 'vue'
 import FloatingBall from './components/FloatingBall.vue'
 import { create, NModal, NCard, NInput } from 'naive-ui'
@@ -95,6 +97,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 })
 
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === 'closeTab') {
+    console.log(request.action, 'request.actionrequest.action')
+    chrome.tabs.remove(request.tabId)
+  }
+})
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === 'goTab') {
+    chrome.tabs.update(request.tabId, { active: true })
+    // chrome.windows.update(tab.windowId, { focused: true })
+  }
+})
 app.use(naive)
 // 挂载 Vue 应用
 app.mount(mountPoint)
