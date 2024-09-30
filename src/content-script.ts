@@ -84,7 +84,6 @@ const naive = create({
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.tabs) {
-    console.log('Received all tabs info:', request.tabs)
     const floatingBall = document.getElementById('floating-ball')
     if (floatingBall) {
       floatingBall.click() // 模拟点击悬浮球
