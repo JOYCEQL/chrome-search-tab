@@ -8,10 +8,15 @@
       placeholder="输入URL或者标题搜索"
     ></NInput>
     <div class="tab-container h-[500px] overflow-auto">
-      <div v-for="tab in resultTab" :key="tab.id" class="list-item" @click="goTab(tab)">
+      <div
+        v-for="tab in resultTab"
+        :key="tab.id"
+        :class="['list-item', { tabSelected: isActiveTab(tab) }]"
+        @click="goTab(tab)"
+      >
         <div><img style="width: 20px; height: 20px" :src="tab.favIconUrl" alt="" /></div>
         <div class="line-title flex-1 shrink-0 p-4">{{ tab.title }}</div>
-        <div @click.prevent="closeTab(tab)" class="line-closeIcon">
+        <div @click.stop="closeTab(tab)" class="line-closeIcon">
           <X :size="30"></X>
         </div>
       </div>
@@ -47,6 +52,12 @@ const closeTab = (tab: any) => {
   chrome.runtime.sendMessage({ action: 'closeTab', tabId: tab.id })
 }
 
+const isActiveTab = (tab: any) => {
+  // 获取当前网页url
+  const url = window.location.href
+  return tab.url === url
+}
+
 const resultTab = computed(() => {
   return openedTabs.value.filter((tab: { title: string }) =>
     tab.title.toLowerCase().includes(searchValue.value.toLowerCase())
@@ -56,7 +67,7 @@ const resultTab = computed(() => {
 
 <style scoped lang="less">
 .tab-container {
-  height: 400px;
+  height: 480px;
   overflow: auto;
 }
 .list-item {
@@ -88,8 +99,8 @@ const resultTab = computed(() => {
   .line-closeIcon {
     position: absolute;
     right: 12px;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: none;
     background-color: #ea5455;
@@ -97,5 +108,8 @@ const resultTab = computed(() => {
     justify-content: center;
     align-items: center;
   }
+}
+.tabSelected {
+  background: #02c39a;
 }
 </style>

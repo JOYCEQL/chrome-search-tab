@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.tabs) {
     const floatingBall = document.getElementById('floating-ball')
     if (floatingBall) {
-      floatingBall.click() // 模拟点击悬浮球
+      floatingBall.click()
     }
     // 将数据存储到window上
     window.postMessage({ type: 'SET_OPEN_TABS', data: request.tabs }, '*')

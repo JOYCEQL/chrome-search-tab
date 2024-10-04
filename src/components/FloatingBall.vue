@@ -9,7 +9,7 @@
     ⚙️
   </div>
   <!-- unstableShowMask 设置是否显示mask -->
-  <NModal :show="showModal" :mask-closable="true" :show-icon="true" :unstableShowMask="false">
+  <NModal :close-on-esc="true" :show="showModal" :mask-closable="true" :show-icon="true" :unstableShowMask="false">
     <n-card
       style="width: 600px; background-color: #242424; border-radius: 20px"
       size="huge"
@@ -36,7 +36,7 @@ const position = ref({ x: 100, y: 100 }) // 初始位置
 const showModal = ref(false)
 let isDragging = false
 let offsetX, offsetY
-
+console.log(showModal, 'showModal')
 const startDragging = (e) => {
   isDragging = true
   offsetX = e.clientX - position.value.x
@@ -70,6 +70,7 @@ onMounted(() => {
     }
   })
 })
+// 监听showModal
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', onMouseMove)
