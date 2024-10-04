@@ -9,6 +9,7 @@ chrome.commands.onCommand.addListener(function (command) {
         title: tab.title,
         url: tab.url,
         id: tab.id,
+        favIconUrl: tab.favIconUrl,
       }))
 
       // 找到当前活动标签页并发送信息
@@ -25,7 +26,6 @@ chrome.commands.onCommand.addListener(function (command) {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === 'closeTab') {
-    console.log(request.action, '112')
     chrome.tabs.remove(request.tabId, (result) => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError)
@@ -39,6 +39,5 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === 'goTab') {
     chrome.tabs.update(request.tabId, { active: true })
-    // chrome.windows.update(tab.windowId, { focused: true })
   }
 })

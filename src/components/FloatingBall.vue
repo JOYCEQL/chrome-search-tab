@@ -11,18 +11,18 @@
   <!-- unstableShowMask 设置是否显示mask -->
   <NModal :show="showModal" :mask-closable="true" :show-icon="true" :unstableShowMask="false">
     <n-card
-      style="width: 600px; background-color: #242424"
+      style="width: 600px; background-color: #242424; border-radius: 20px"
       size="huge"
       :bordered="false"
       role="dialog"
       aria-modal="true"
     >
       <div>
-        <div style="color: #fff; margin-bottom: 12px">
-          <span>ESC：</span>
-          <span>关闭</span>
+        <div style="color: #fff; display: flex; justify-content: space-between; margin-bottom: 12px">
+          <div><span>ESC：</span> <span>关闭</span></div>
+          <div><span>CTRL+SHIFT+H：</span><span>打开</span></div>
         </div>
-        <SearchContainer></SearchContainer>
+        <SearchContainer @goTab="showModal = false"></SearchContainer>
       </div>
     </n-card>
   </NModal>
@@ -45,7 +45,6 @@ const startDragging = (e) => {
 
 const showTab = () => {
   showModal.value = true
-  // 触发background.ts的toggle操作
   chrome.runtime.sendMessage({ action: 'sendTabs' })
 }
 

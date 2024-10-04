@@ -8,6 +8,7 @@ export default defineManifest(async (env) => {
     name: 'Search Tab',
     description: 'Locate an opened tab',
     version: packageJson.version,
+    host_permissions: ['<all_urls>'],
     action: {
       default_title: 'Default Title',
       default_popup: 'index.html',
@@ -44,6 +45,6 @@ export default defineManifest(async (env) => {
         description: 'Active Extension',
       },
     },
-    permissions: ['tabs', 'activeTab'],
+    permissions: ['tabs', 'activeTab', 'declarativeNetRequest', 'declarativeNetRequestFeedback'],
   }
 })
