@@ -24,6 +24,7 @@
         </div>
         <SearchContainer @goTab="showModal = false"></SearchContainer>
       </div>
+      <div class="close-icon" @click="showModal = false"><X :size="30"></X></div>
     </n-card>
   </NModal>
 </template>
@@ -32,11 +33,12 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import SearchContainer from './SearchContainer.vue'
 import { NModal } from 'naive-ui'
+import { X } from 'lucide-vue-next'
+
 const position = ref({ x: 100, y: 100 }) // 初始位置
 const showModal = ref(false)
 let isDragging = false
 let offsetX, offsetY
-console.log(showModal, 'showModal')
 const startDragging = (e) => {
   isDragging = true
   offsetX = e.clientX - position.value.x
@@ -70,15 +72,34 @@ onMounted(() => {
     }
   })
 })
-// 监听showModal
-
-onUnmounted(() => {
-  document.removeEventListener('mousemove', onMouseMove)
-  document.removeEventListener('mouseup', stopDragging)
-})
 </script>
 
-<style scoped>
+<style scoped lang="less">
+.n-card {
+  &::before {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    background-image: linear-gradient(
+      0deg,
+      rgb(79, 207, 112),
+      rgb(250, 214, 72),
+      rgb(167, 103, 229),
+      rgb(18, 188, 254),
+      rgb(68, 206, 123)
+    );
+    animation-timeline: auto;
+    animation-range-start: normal;
+    animation-range-end: normal;
+    will-change: filter;
+    inset: -1px;
+    border-radius: 20px;
+    padding: 2px;
+    mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude,
+      linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px);
+    animation: 3s linear 0s infinite normal none running borderAnimation;
+  }
+}
 .floating-ball {
   position: fixed;
   width: 50px;
@@ -95,5 +116,22 @@ onUnmounted(() => {
 }
 .floating-ball:hover {
   background-color: rgba(255, 255, 255, 1);
+}
+.close-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #672bc7;
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  color: #fff;
+}
+
+@keyframes borderAnimation {
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
 </style>

@@ -2,9 +2,9 @@
   <div class="w-full">
     <NInput
       autofocus
+      size="large"
       v-model:value="searchValue"
-      style="margin-bottom: 16px; border-radius: 8px"
-      class="mb-4 rounded-[8px]"
+      style="margin-bottom: 16px; border-radius: 8px; background-color: #191919"
       placeholder="输入URL或者标题搜索"
     ></NInput>
     <div class="tab-container h-[500px] overflow-auto">
@@ -14,11 +14,17 @@
         :class="['list-item', { tabSelected: isActiveTab(tab) }]"
         @click="goTab(tab)"
       >
-        <div><img style="width: 20px; height: 20px" :src="tab.favIconUrl" alt="" /></div>
+        <div style="display: flex; align-items: center">
+          <img style="width: 20px; height: 20px" :src="tab.favIconUrl" alt="" />
+        </div>
         <div class="line-title flex-1 shrink-0 p-4">{{ tab.title }}</div>
         <div @click.stop="closeTab(tab)" class="line-closeIcon">
           <X :size="30"></X>
         </div>
+        <div
+          v-if="isActiveTab(tab)"
+          style="width: 8px; height: 8px; border-radius: 50%; background-color: #06b178"
+        ></div>
       </div>
     </div>
   </div>
@@ -45,7 +51,9 @@ const getAactivedTab = () => {
 
 const goTab = (tab: any) => {
   emit('goTab')
-  chrome.runtime.sendMessage({ action: 'goTab', tabId: tab.id })
+  setTimeout(() => {
+    chrome.runtime.sendMessage({ action: 'goTab', tabId: tab.id })
+  }, 10)
 }
 
 const closeTab = (tab: any) => {
@@ -63,20 +71,24 @@ const resultTab = computed(() => {
     tab.title.toLowerCase().includes(searchValue.value.toLowerCase())
   )
 })
+console.log(11)
 </script>
 
 <style scoped lang="less">
 .tab-container {
   height: 480px;
   overflow: auto;
+  background-image: linear-gradient(rgb(27, 27, 27), rgb(18, 18, 18));
+  border-radius: 10px;
+  padding: 12px;
 }
 .list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: all 100ms;
-  background-color: #fef9ef;
-  color: black;
+  color: #9c9c9c;
+  background-color: #242424;
   margin-bottom: 12px;
   border-radius: 10px;
   cursor: pointer;
@@ -84,7 +96,8 @@ const resultTab = computed(() => {
   padding: 0 12px;
   position: relative;
   &:hover {
-    background: #02c39a;
+    transition: all 100ms;
+    background-color: #672bc7;
     color: #fff;
     font-weight: 700;
     .line-closeIcon {
@@ -99,17 +112,41 @@ const resultTab = computed(() => {
   .line-closeIcon {
     position: absolute;
     right: 12px;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: none;
-    background-color: #ea5455;
-    color: #fff;
+    background-color: #fff;
+    color: #242424;
     justify-content: center;
     align-items: center;
   }
 }
 .tabSelected {
-  background: #02c39a;
+  // color: #fff;
+}
+
+/* 适用于 WebKit 浏览器（如 Chrome 和 Safari） */
+
+:deep(::-webkit-scrollbar) {
+  width: 16px; /* 设置滚动条的宽度 */
+  height: 16px; /* 设置水平滚动条的高度 */
+}
+
+:deep(::-webkit-scrollbar-track) {
+  background: #2c2c2c; /* 滚动条轨道的背景颜色 */
+  border-radius: 10px; /* 轨道的圆角 */
+}
+
+:deep(::-webkit-scrollbar-thumb) {
+  background: #888; /* 滚动条的颜色 */
+  border-radius: 10px; /* 滚动条的圆角 */
+}
+
+* {
+  scrollbar-color: #888 #2c2c2c; /* 滚动条颜色和轨道颜色 */
+}
+:deep(.n-input .n-input__input-el) {
+  color: #fff;
 }
 </style>
