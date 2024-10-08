@@ -18,11 +18,11 @@
       aria-modal="true"
     >
       <div>
-        <div style="color: #fff; display: flex; justify-content: space-between; margin-bottom: 12px">
+        <SearchContainer @goTab="showModal = false"></SearchContainer>
+        <div style="color: rgba(235, 235, 245, 0.6); display: flex; justify-content: space-between; margin-top: 12px">
           <div><span>ESC：</span> <span>关闭</span></div>
           <div><span>CTRL+SHIFT+H：</span><span>打开</span></div>
         </div>
-        <SearchContainer @goTab="showModal = false"></SearchContainer>
       </div>
       <div class="close-icon" @click="showModal = false"><X :size="30"></X></div>
     </n-card>

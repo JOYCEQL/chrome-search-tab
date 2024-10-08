@@ -8,11 +8,14 @@
       placeholder="输入URL或者标题搜索"
     ></NInput>
     <div class="tab-container h-[500px] overflow-auto">
-      <div
+      <li
         v-for="tab in resultTab"
         :key="tab.id"
-        :class="['list-item', { tabSelected: isActiveTab(tab) }]"
+        :class="['list-item', { selectedItem: tab.id === state.currentSelected.id }]"
         @click="goTab(tab)"
+        role="option"
+        @mouseover="handleMouseOver(tab)"
+        :aria-selected="tab.id === state.currentSelected.id"
       >
         <div style="display: flex; align-items: center">
           <img style="width: 20px; height: 20px" :src="tab.favIconUrl" alt="" />
@@ -25,20 +28,45 @@
           v-if="isActiveTab(tab)"
           style="width: 8px; height: 8px; border-radius: 50%; background-color: #06b178"
         ></div>
-      </div>
+      </li>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { X } from 'lucide-vue-next'
 const openedTabs = ref<any>([])
+const state = reactive({
+  currentSelected: null,
+})
 const searchValue = ref<string>('')
 
 const emit = defineEmits()
+const keydownHandler = (e) => {
+  if (e.key === 'ArrowDown') {
+    const currentIndex = resultTab.value.findIndex((tab: { id: any }) => tab.id === state.currentSelected.id)
+    const nextIndex = currentIndex + 1
+    if (nextIndex < resultTab.value.length) {
+      state.currentSelected = resultTab.value[nextIndex]
+    }
+  } else if (e.key === 'ArrowUp') {
+    const currentIndex = resultTab.value.findIndex((tab) => tab.id === state.currentSelected.id)
+    const prevIndex = currentIndex - 1
+    if (prevIndex >= 0) {
+      state.currentSelected = resultTab.value[prevIndex]
+    }
+  }
+  if (e.key === 'Enter' && e.target.baseURI) {
+    goTab(state.currentSelected)
+  }
+}
 
 onMounted(() => {
   getAactivedTab()
+  document.addEventListener('keydown', keydownHandler)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', keydownHandler)
 })
 
 const getAactivedTab = () => {
@@ -61,17 +89,25 @@ const closeTab = (tab: any) => {
 }
 
 const isActiveTab = (tab: any) => {
-  // 获取当前网页url
   const url = window.location.href
   return tab.url === url
 }
 
+const handleMouseOver = (tab) => {
+  state.currentSelected = null
+  state.currentSelected = tab
+}
+
 const resultTab = computed(() => {
-  return openedTabs.value.filter((tab: { title: string }) =>
+  const filteredTabs = openedTabs.value.filter((tab) =>
     tab.title.toLowerCase().includes(searchValue.value.toLowerCase())
   )
+  const activeTab = filteredTabs.find(isActiveTab)
+  const otherTabs = filteredTabs.filter((tab) => !isActiveTab(tab))
+  const tabs = activeTab ? [activeTab, ...otherTabs] : otherTabs
+  state.currentSelected = tabs[0]
+  return tabs
 })
-console.log(11)
 </script>
 
 <style scoped lang="less">
@@ -95,15 +131,15 @@ console.log(11)
   overflow: hidden;
   padding: 0 12px;
   position: relative;
-  &:hover {
-    transition: all 100ms;
-    background-color: #672bc7;
-    color: #fff;
-    font-weight: 700;
-    .line-closeIcon {
-      display: flex;
-    }
-  }
+  // &:hover {
+  //   transition: all 100ms;
+  //   background-color: #672bc7;
+  //   color: #fff;
+  //   font-weight: 700;
+  //   .line-closeIcon {
+  //     display: flex;
+  //   }
+  // }
 
   .line-title {
     padding: 16px;
@@ -120,6 +156,15 @@ console.log(11)
     color: #242424;
     justify-content: center;
     align-items: center;
+  }
+}
+.selectedItem {
+  transition: all 100ms;
+  background-color: #672bc7;
+  color: #fff;
+  font-weight: 700;
+  .line-closeIcon {
+    display: flex;
   }
 }
 .tabSelected {
