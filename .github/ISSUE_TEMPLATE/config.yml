@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Want to contribute to chrome-search-tab?
+    url: https://github.com/yourusername/chrome-search-tab/blob/main/CONTRIBUTING.md
+    about: If you have a bug or an idea, read the contributing guidelines before opening an issue.
